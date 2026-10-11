@@ -24,10 +24,9 @@ tags: [decomp, native-dll, pinvoke, tmodloader, dotnet, c-api, abi, stubs, arena
 ## When to use it
 - A decompilation (or a decomp-based PC port) of the guest exists, and you need *its* behaviour, not an
   approximation. The alternative is rewriting the mechanics in the host's language. In this project a
-  2,500-line C# rewrite matched walking within a few pixels, but drifted up to about 127 px elsewhere (against a truth that included the
-  community controller fix) and needed
-  hand-written logic for every special move (about 34 distinct movement specials and 18 projectile moves
-  across the roster).
+  2,500-line C# rewrite matched walking within a few pixels, but drifted up to about 127 px elsewhere (against a
+  truth that included the community controller fix) and needed hand-written logic for every special move (about
+  34 distinct movement specials and 18 projectile moves across the roster).
 - The host runs mods as .NET assemblies (tModLoader, BepInEx, SMAPI, MelonLoader...) and can call native code.
 - You want rollback, replays or a "1:1" claim later. A library with an explicit snapshot and a fixed frame
   step makes that possible; a rewrite rarely does.
@@ -210,8 +209,8 @@ tags: [decomp, native-dll, pinvoke, tmodloader, dotnet, c-api, abi, stubs, arena
 10. **A build overwrote the player's installed mod, twice.** **Cause:** `dotnet build` of a tModLoader mod also
     packs the `.tmod` into the player's `Mods` folder (`tMLMod.targets` runs `BuildMod` after `Build`), whether it
     builds the live source folder or a copy. It happened during a verification, and again later from a different
-    agent that built in place; the installed file was restored from a backup eight minutes after the second one. **Fix:** compile checks on a private copy with the pack target
-    removed; build the packed `.tmod` with tModLoader's own `-build` command and a `-tmlsavedirectory` that points
+    agent that built in place; the installed file was restored from a backup eight minutes after the second one.
+    **Fix:** compile checks on a private copy with the pack target removed; build the packed `.tmod` with tModLoader's own `-build` command and a `-tmlsavedirectory` that points
     into a lab folder, so the file lands there (the outputs confirmed it); keep the installed `.tmod` read-only
     while that runs; hash it, and note its modification time, before and after every build; back it up before the
     first build; and write the rule in the project's rules file and in every agent's brief.
@@ -270,8 +269,9 @@ tags: [decomp, native-dll, pinvoke, tmodloader, dotnet, c-api, abi, stubs, arena
   (the contract template followed here), `bit-exact-decomp-ports-reproduce-the-original-compiler-s-and.md`
   (making the hosted engine match the original) and
   `skinned-3d-models-inside-tmodloader-posed-by-an-external-eng.md` (drawing what it simulates). For testing it
-  safely and honestly: `running-several-isolated-tmodloader-test-instances-in-parall.md` (parallel lab instances), `when-the-first-real-run-fails-suspect-the-oracle-re-deriving.md` (first-run failures) and `prove-your-replay-bench-can-fail-mutant-builds-exposed-four-.md` (mutant
-  builds).
+  safely and honestly: `running-several-isolated-tmodloader-test-instances-in-parall.md` (parallel lab
+  instances), `when-the-first-real-run-fails-suspect-the-oracle-re-deriving.md` (first-run failures) and
+  `prove-your-replay-bench-can-fail-mutant-builds-exposed-four-.md` (mutant builds).
 
 ## Credits
 - [melee-pc](https://github.com/999sian/melee-pc), the PC port whose library split, rollback snapshot and file

@@ -79,8 +79,9 @@ tags: [oracle, verification, first-real-run, trace-analysis, mutation-testing, c
 ## Seen in
 - [Super Smash Bros. Melee's engine inside Terraria](../games/terraria/super-smash-bros-melee-s-decompiled-engine-inside-terraria-a.md)
 - Related: `oracles-how-agents-know-a-mod-works.md` (the oracle catalogue and its gotchas),
-  `collision-and-combat-bridging.md`, and `prove-your-replay-bench-can-fail-mutant-builds-exposed-four-.md` (proving a bench can fail with mutant builds).
+  `collision-and-combat-bridging.md`, and `prove-your-replay-bench-can-fail-mutant-builds-exposed-four-.md`
+  (proving a bench can fail with mutant builds).
 
 ## Credits
-- Built with AI agents: Claude Code and its agents implemented the suite and its checker; a different agent, Claude Code,
-   re-derived the failures and ran the mutations. Human direction: DarkameMaster.
+- Built with AI agents: Claude Code and its agents implemented the suite and its checker; a different agent,
+  Claude Code, re-derived the failures and ran the mutations. Human direction: DarkameMaster.

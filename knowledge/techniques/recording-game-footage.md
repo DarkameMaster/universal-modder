@@ -44,7 +44,6 @@ Showcase videos, bug evidence, and oracles that need to see motion.
    so SDL/driver tricks do nothing. Use process loopback.
 7. **Audio a few hundred ms early.** ffmpeg + capture + encoder startup takes about 0.25-0.3 s before the
    first frame. Account for it in the mux, and measure once per machine.
-
 8. **Process loopback captured exact silence.** **Symptom:** the take's audio track is tiny (about 2 kb/s of
    AAC), and every capture ever made from the game's process is exact zeros, while a capture of another program
    on the same machine is fine. **Cause:** Windows had that executable muted (volume 0 plus mute) in the

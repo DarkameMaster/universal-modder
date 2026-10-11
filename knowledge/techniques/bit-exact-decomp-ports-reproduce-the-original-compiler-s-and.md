@@ -135,9 +135,9 @@ tags: [decomp, port, floating-point, float32, fma, fmadds, paired-singles, mwcc,
   the fighter's position against the stage's camera bounds. Kirby took the damage one frame earlier in the
   truth than in the port.
   - Measure before you theorise: the `.slp` records the fighter's own "off-screen" flag. Compared with the
-    engine's camera result, it matched in all 159,312 comparisons (the implementing agent's count; a second agent's method counted 165,970,
-    also with no differences), which refuted the camera-precision
-    hypotheses and pointed at the code.
+    engine's camera result, it matched in all 159,312 comparisons (the implementing agent's count; a second
+    agent's method counted 165,970, also with no differences), which refuted the camera-precision hypotheses and
+    pointed at the code.
   - Fix: transcribe the code as a switchable build tag (on by default), and **decide the target explicitly**.
     Here it is Melee 1.02 plus Slippi's required codes, the way Melee is played online today, **minus UCF**:
     the community controller fix (dashback, shield drop, SDI...) sits in the same required block, and the
@@ -160,7 +160,8 @@ of 29.
 The replay bench (a headless host, not the final game) replaying the 29 real recordings on both ports. Each
 stage was re-run by a different agent with its own host, `.slp` reader and comparator, and each causal
 experiment (remove one fix) brought its divergence back. The bench itself was later checked with deliberately
-broken builds (`prove-your-replay-bench-can-fail-mutant-builds-exposed-four-.md`), which found and closed four false greens.
+broken builds (`prove-your-replay-bench-can-fail-mutant-builds-exposed-four-.md`), which found and closed four
+false greens.
 
 | Fixes in the build | Recordings bit-exact on both ports |
 |---|---|
@@ -212,7 +213,8 @@ broken builds (`prove-your-replay-bench-can-fail-mutant-builds-exposed-four-.md`
 - Related: `hosting-a-decompiled-console-engine-as-a-native-dll-inside-a.md` (the build-time patch mechanism and
   the bench as a merge gate), [Eye of Cthulhu RL agent](../games/terraria/eye-of-cthulhu-rl-agent.md) (float32
   constants in a C#-to-numba port), `engine-recreation-measures-and-fidelity.md` (a deterministic build isn't a
-  deterministic game), `oracles-how-agents-know-a-mod-works.md` (trace replay) and `prove-your-replay-bench-can-fail-mutant-builds-exposed-four-.md` (proving the bench can fail).
+  deterministic game), `oracles-how-agents-know-a-mod-works.md` (trace replay) and
+  `prove-your-replay-bench-can-fail-mutant-builds-exposed-four-.md` (proving the bench can fail).
 
 ## Credits
 - [doldecomp/melee](https://github.com/doldecomp/melee) and [melee-pc](https://github.com/999sian/melee-pc):

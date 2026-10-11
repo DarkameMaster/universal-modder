@@ -159,5 +159,5 @@ line.
 ## Credits
 - [tModLoader](https://github.com/tModLoader/tModLoader), whose assemblies were read to find the working-directory
   dependencies.
-- Built with AI agents: Claude Code and its agents implemented the multi-lab support; a different agent, Claude Code,
-   verified the classifier. Human direction: DarkameMaster.
+- Built with AI agents: Claude Code and its agents implemented the multi-lab support; a different agent, Claude
+  Code, verified the classifier. Human direction: DarkameMaster.

@@ -52,18 +52,19 @@ tags: [mashup, decomp, native-dll, pinvoke, trace-replay, bit-exact, float32, fm
   `std::thread`, which needs the posix variant even though the DLL doesn't link that layer).
 - **Guest data:** the game's files (Melee NTSC-U 1.02), extracted with DolphinTool to a folder outside the mod.
   The DLL reads them at runtime; nothing from the game is in the mod or its repository. Every player needs their
-  own copy of Melee NTSC-U 1.02.
+  own copy of Melee NTSC-U 1.02, dumped from a disc they own; don't download disc images.
 - **Target rules (user's decision):** Melee 1.02 **plus Slippi's `$Required` codes**, the way Melee is played
   online today, **minus UCF** (the community controller fix, which ships inside the same required block).
-- **Oracle:** Slippi Dolphin 3.6.4 (the official portable build of [Ishiiruka](https://github.com/project-slippi/Ishiiruka))
-  driven by [libmelee](https://github.com/altf4/libmelee) 0.47.3 on Python 3.12.10, in a lab copy whose game
-  settings have the 9 UCF 0.84 code blocks removed. The user's own Dolphin configuration is untouched (hash
-  checked).
+- **Oracle:** Slippi Dolphin 3.6.4 (the official portable build of
+  [Ishiiruka](https://github.com/project-slippi/Ishiiruka)) driven by [libmelee](https://github.com/altf4/libmelee)
+  0.47.3 on Python 3.12.10, in a lab copy whose game settings have the 9 UCF 0.84 code blocks removed. The user's
+  own Dolphin configuration is untouched (hash checked).
 - **Lab:** tModLoader started with `-tmlsavedirectory <lab folder>` and `-skipselect`, saves snapshotted with
   `um backup` first, a flat test floor, daytime forced while the lab flag is set. The DLL lives in a folder
   outside the mod, so it is never packed into the `.tmod`. The lab runs while the player keeps using their own
   tModLoader, so a classifier tells lab processes from the player's and only the lab's can be closed, by exact
-  PID; extra labs run from their own copy of the install (`running-several-isolated-tmodloader-test-instances-in-parall.md`).
+  PID; extra labs run from their own copy of the install
+  (`running-several-isolated-tmodloader-test-instances-in-parall.md`).
 - **Process:** an orchestrator assigned every task to one agent and its verification to a different one, which
   re-ran or re-measured it; up to 12 Claude agents ran in parallel at the peak, plus smaller ones for
   mechanical work and verification. Grok drafted and reviewed designs read-only as a second model.
@@ -218,8 +219,8 @@ of each engine frame reproduce it. Details, numbers and gotchas:
 3. Apply the floating-point and Slippi fixes as build-time patches (on by default):
    `techniques/bit-exact-decomp-ports-reproduce-the-original-compiler-s-and.md`.
 4. Link it as a DLL with the C and C++ runtimes static and the guest's panic and abort wrapped
-   (`--wrap=OSPanic --wrap=abort`), and copy `melee_core.dll` to a folder outside the mod. Point the mod's config at it and at your extracted files; the data path goes in through
-   `mtb_init`, never an environment variable.
+   (`--wrap=OSPanic --wrap=abort`), and copy `melee_core.dll` to a folder outside the mod. Point the mod's config
+   at it and at your extracted files; the data path goes in through `mtb_init`, never an environment variable.
 5. Convert your fighters' models with your own converter (on HSDRaw) into a folder outside the mod.
 6. In the mod: the P/Invoke binding, tiles → collision lines, the pad path, the session lifecycle, the 3D
    renderer, and a config toggle. Note that a normal `dotnet build` of a tModLoader mod also packs the `.tmod`
@@ -291,11 +292,11 @@ No release has been attempted.
 2. **No pad button did anything.** **Cause, three parts:** the mod read buttons only through `ModKeybind`s, and a
    keybind's default binding reaches a player's input profile only when they press "reset" in the controls menu,
    so the user's profile had none; Terraria kept reading the pad itself (A mounted, B grappled, which handed the
-   player back to Terraria and recreated the fighter 17 times in under half a minute); and FNA's dead zone sat on top of Melee's.
-   **Fix:** read XInput directly, detour `PlayerInput.GamePadInput` while the fighter owns the pad (not
-   `Main.SettingBlockGamepadsEntirely`, which `Main.SaveSettings` writes to `config.json`), and fall back to a
-   keybind's default key. (Implementing agent's diagnosis; a second agent confirmed the button path synthetically and found the index-1
-   pad case.)
+   player back to Terraria and recreated the fighter 17 times in under half a minute); and FNA's dead zone sat on
+   top of Melee's. **Fix:** read XInput directly, detour `PlayerInput.GamePadInput` while the fighter owns the pad
+   (not `Main.SettingBlockGamepadsEntirely`, which `Main.SaveSettings` writes to `config.json`), and fall back to a
+   keybind's default key. (Implementing agent's diagnosis; a second agent confirmed the button path synthetically
+   and found the index-1 pad case.)
 3. **On slopes the model squashed and popped back.** **Cause:** slopes were full blocks to the engine, the spawn
    landed inside a solid, the engine and Terraria positions drifted more than 16 px apart, and the fix-up recreated
    the fighter, which replays Melee's entry animation. **Fix:** real slope geometry, lifting the spawn out of
@@ -341,11 +342,8 @@ No release has been attempted.
     for duplicate names (Japanese `.ssm` files next to English ones), and DolphinTool's `-o` once produced *folders*
     named `Pl??.dat`. **Fix:** extract preserving directories, and list duplicate base names before trusting the
     files.
-13. **Dolphin took the foreground by itself during an unattended oracle run.** **Cause:** Windows lets a process
-    take the foreground once the user has been idle long enough; no focus or input was sent. **Fix:** launch
-    without activation where possible, stop the run if the user comes back (an idle guard), and report any
-    foreground change. Launching minimized without activation did not help: with the user away the emulator was
-    the foreground window in 214 of 225 samples; launch it visible and not activated instead.
+13. **Dolphin took the foreground by itself during an unattended oracle run**, even launched minimized and not
+    activated. See `recording-game-footage.md`, Gotcha 10.
 14. **Second-model research drafts came back in 80 s with invented citations.** **Cause:** an API key in the
     environment overrode the subscription login and selected a non-reasoning default model. **Fix:** unset the key
     for that child process only, pin the model, and check every quoted code line mechanically against the source.
@@ -359,19 +357,21 @@ No release has been attempted.
 17. **The first in-game test suite failed 27 of 27, then 13 of 27, and neither was mostly the mod.** **Cause:**
     first, a relative scenario path resolved against the game's install folder, so no scenario loaded; then a test
     checker that did not know the original game's edge grabs, a helper that returned a cell inside a solid mass, and
-    one scenario built a row off. **Fix:** absolute paths checked by the launcher (`running-several-isolated-tmodloader-test-instances-in-parall.md`, Gotcha 3); a second
-    agent re-derived each failure from raw traces and mutated real data to prove the corrected checker still fails
-    real fall-throughs (`when-the-first-real-run-fails-suspect-the-oracle-re-deriving.md`).
+    one scenario built a row off. **Fix:** absolute paths checked by the launcher
+    (`running-several-isolated-tmodloader-test-instances-in-parall.md`, Gotcha 3); a second agent re-derived
+    each failure from raw traces and mutated real data to prove the corrected checker still fails real
+    fall-throughs (`when-the-first-real-run-fails-suspect-the-oracle-re-deriving.md`).
 18. **A recorded match replayed in Terraria agreed with the original for 55 s, then diverged.** **Cause:** the mod's
     own terrain-to-collision streaming replaced the replay's stage collision one tick after it was created.
     **Fix:** a collision lock during replays (hosting note, Gotcha 13).
 19. **The bench that gated every engine build had four false greens.** **Cause:** nobody had tried to make it fail.
-    **Fix:** twelve fabricated broken builds found the holes, and a diff closed them (`prove-your-replay-bench-can-fail-mutant-builds-exposed-four-.md`).
+    **Fix:** twelve fabricated broken builds found the holes, and a diff closed them
+    (`prove-your-replay-bench-can-fail-mutant-builds-exposed-four-.md`).
 
 ## Assets
-None are shipped. The 3D models are converted on the player's machine, from their own copy of the game, with an own converter
-built on HSDRaw into a compact format kept outside the mod; the mod contains code only. The earlier Blender sprite
-sheets were dropped. No generated (fal) assets were used.
+None are shipped. The 3D models are converted on the player's machine, from their own copy of the game, with an
+own converter built on HSDRaw into a compact format kept outside the mod; the mod contains code only. The earlier
+Blender sprite sheets were dropped. No generated (fal) assets were used.
 
 ## Cost and time
 About three days (2026-10-08 to 2026-10-10) of orchestrated sessions. The embedded-engine route, from the first
@@ -390,9 +390,15 @@ seconds.
 - The Marth/Roy cape during their neutral special; the camera's remaining jitter (a second agent confirmed that the
   engine-driven camera removed the fighter's jitter, at most 1.02 px for the fighter and 0.5 px for the world
   against 110 px before, but damage numbers and health bars still jump up to 6 px at high zoom).
-- Distribution: the DLL contains the decompiled game and is not distributable. A source-only release, where each
-  player builds the engine and supplies their own copy of Melee NTSC-U 1.02, is the option under study; the
-  licence questions are open. The rollback snapshot and determinism suggest online play is feasible; it's untested.
+- Distribution: the DLL contains the decompiled game and is not distributable, and neither are the converted
+  models, audio or anything else read from the disc. A source-only release, where each player builds the engine
+  and supplies their own copy of Melee NTSC-U 1.02, is the option under study; the licence questions are open.
+  The build-time patches (routines transcribed from `main.dol`, such as MSL's trig and `PSMTXConcat`) are
+  derived from the game's executable too. Shipping only your own code and having each player bring their own
+  disc lowers the risk but doesn't remove it: Nintendo has taken down projects that shipped no Nintendo files.
+  Keep Nintendo's names and art off any mod page and its thumbnail, and run `um publish check` on a release
+  (`skills/publish-mod/SKILL.md`). The rollback snapshot and determinism suggest online play is feasible; it's
+  untested.
 
 ## Credits
 - [melee-pc](https://github.com/999sian/melee-pc): the PC port this is built on, and its rollback snapshot, file

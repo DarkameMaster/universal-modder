@@ -90,7 +90,8 @@ documentation now says it is not the standard check.
 ## Seen in
 - [Super Smash Bros. Melee's engine inside Terraria](../games/terraria/super-smash-bros-melee-s-decompiled-engine-inside-terraria-a.md)
 - Related: `bit-exact-decomp-ports-reproduce-the-original-compiler-s-and.md` (the bench's recordings),
-  `oracles-how-agents-know-a-mod-works.md`, and `when-the-first-real-run-fails-suspect-the-oracle-re-deriving.md` (re-deriving first-run failures from raw traces).
+  `oracles-how-agents-know-a-mod-works.md`, and `when-the-first-real-run-fails-suspect-the-oracle-re-deriving.md`
+  (re-deriving first-run failures from raw traces).
 
 ## Credits
 - Built with AI agents: an agent wrote the tool; a different agent, Claude Code and its agents, fabricated and ran
